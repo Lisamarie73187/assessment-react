@@ -16,7 +16,7 @@ class Details extends Component {
         }
         this.del=this.del.bind(this)
         this.toggle=this.toggle.bind(this)
-        this.edit=this.edit.bind(this)
+        this.editTitle=this.editTitle.bind(this)
         this.editDesc=this.editDesc.bind(this)
         this.onSubmit=this.onSubmit.bind(this)
     }
@@ -24,7 +24,7 @@ class Details extends Component {
     componentDidMount() {
         this.props.getToDo().then(response => {
             this.props.toDos.forEach(e => {
-                if((e.id * 1) === (this.props.match.params.id * 1)){
+                if(+e.id === +this.props.match.params.id){
                     this.setState({
                         id: e.id,
                         inputValue: e.title,
@@ -49,7 +49,7 @@ class Details extends Component {
          })
      }
 
-     edit(){
+     editTitle(){
          this.setState({
              showEdit: true
          })
@@ -77,9 +77,10 @@ class Details extends Component {
      onSubmit(){
          console.log('button')
          this.props.edit(this.props.match.params.id,{
-            title: this.state.inputValue,
-            description: this.state.inputValueDesc
-         }).then( response => {
+             title: this.state.inputValue,
+             description: this.state.inputValueDesc
+            }).then( response => {
+                console.log(this.state.inputValue)
              this.props.history.push("/")
          })
      }
@@ -95,7 +96,7 @@ class Details extends Component {
                             <div style={task}>Task</div>
                             <div style={flex}>
                             {!this.state.showEdit && 
-                                <div onClick={this.edit} style={detailsTitle}>{this.state.inputValue}</div>
+                                <div onClick={this.editTitle} style={detailsTitle}>{this.state.inputValue}</div>
                                 }
                             {this.state.showEdit && <div>
                                 <input style={input}
@@ -116,7 +117,7 @@ class Details extends Component {
                                     onChange={(e) =>this.handleInputDesc(e.target.value)}/>
                                 </div>}
                             <div style={flex}>
-                                <div onClick={this.onSubmit} style={save}>Save</div>
+                                <div onClick={()=>this.onSubmit()} style={save}>Save</div>
                                 <Link className="noDecor" to="/"><div style={cancel}>Cancel</div></Link>
                                 <div onClick={() =>this.del(this.state.id)}style={del}>Delete</div>
                             </div>

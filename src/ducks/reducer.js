@@ -41,7 +41,7 @@ const initialState = {
 
   export const edit = (id, body) => {
     console.log('reducer?')
-    var request = axios.put(`https://practiceapi.devmountain.com/api/tasks/${id}`, body).then(response => {
+    var request = axios.patch(`https://practiceapi.devmountain.com/api/tasks/${id}`, body).then(response => {
       if(response.data) {
         return response.data
       }
@@ -66,7 +66,7 @@ const initialState = {
 
   export const toggleComplete = (id, body) => {
     console.log(id, body)
-    var request = axios.patch(`https://practiceapi.devmountain.com/api/tasks/${id}`, body )
+    var request = axios.put(`https://practiceapi.devmountain.com/api/tasks/${id}`, body )
       .then(response => {
         if(response.data) {
           return response.data
@@ -91,7 +91,9 @@ const initialState = {
   };
 
   export var getToDo = () => {
+    console.log('reducer')
     var request = axios.get('https://practiceapi.devmountain.com/api/tasks').then(response => {
+      console.log(response)
       if(response.data){
         return response.data
       }
